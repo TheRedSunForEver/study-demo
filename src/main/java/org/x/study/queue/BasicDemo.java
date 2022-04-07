@@ -1,5 +1,8 @@
 package org.x.study.queue;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 /**
  * Queue：先入先出（FIFO）的数据结构
  * Queue接口与List、Set同一级别，都继承了Collection接口
@@ -26,4 +29,29 @@ package org.x.study.queue;
  *   带有延迟时间的Queue，其中元素只有当指定的时间到了，才能从队列中获取到该元素。队列中的元素必须实现Delayed接口，没有大小限制。
  */
 public class BasicDemo {
+
+    public static void main(String[] args) {
+        sizeDemo();
+    }
+
+    private static void sizeDemo() {
+        int count = 100000000;
+        LinkedBlockingQueue<Integer> blockingQueue = new LinkedBlockingQueue<>();
+        ConcurrentLinkedQueue<Integer> conQueue = new ConcurrentLinkedQueue<>();
+        for (int i = 0; i < count; i++) {
+            blockingQueue.offer(i);
+            conQueue.offer(i);
+        }
+
+        long start = System.currentTimeMillis();
+        blockingQueue.size();
+        long t1 = System.currentTimeMillis() - start;
+
+        start = System.currentTimeMillis();
+        conQueue.size();
+        long t2 = System.currentTimeMillis() - start;
+
+        System.out.println("BlockingQueue: " + t1);
+        System.out.println("ConcurrentQueue: " + t2);
+    }
 }
